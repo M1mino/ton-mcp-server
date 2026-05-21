@@ -1,0 +1,90 @@
+{
+  "serverInfo": {
+    "name": "TON Data MCP Server",
+    "version": "1.0.0"
+  },
+  "tools": [
+    {
+      "name": "get_balance",
+      "description": "Get TON wallet balance by address. Address starts with EQ or UQ.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "TON wallet address (starts with EQ or UQ)"
+          }
+        },
+        "required": ["address"]
+      }
+    },
+    {
+      "name": "get_token_price",
+      "description": "Get token price on STON.fi by contract address.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "token_address": {
+            "type": "string",
+            "description": "Token contract address"
+          }
+        },
+        "required": ["token_address"]
+      }
+    },
+    {
+      "name": "get_market_overview",
+      "description": "TON market overview: current block, TON price in USDT.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "search_tokens",
+      "description": "Search tokens on STON.fi by name or symbol.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Token name or symbol"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Max results (up to 20)",
+            "default": 5
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_transactions",
+      "description": "Get recent TON transactions for a wallet address.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "TON wallet address"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Number of transactions (up to 20)",
+            "default": 5
+          }
+        },
+        "required": ["address"]
+      }
+    },
+    {
+      "name": "get_blockchain_info",
+      "description": "Current TON blockchain state (block number, shard).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}
