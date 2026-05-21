@@ -161,6 +161,9 @@ def get_blockchain_info() -> str:
 
 if __name__ == "__main__":
     import uvicorn
+    import json
+    from starlette.responses import JSONResponse
+    from starlette.routing import Route
     
     print(f"🚀 TON Data MCP Server запущен на {HOST}:{PORT}")
     print(f"📡 SSE endpoint: http://{HOST}:{PORT}/sse")
@@ -169,4 +172,11 @@ if __name__ == "__main__":
     print(f"📋 Инструменты: get_balance, get_token_price, get_market_overview, search_tokens, get_transactions, get_blockchain_info")
     
     starlette_app = mcp.sse_app()
+    
+    # Добавляем Smithery server card endpoint
+    @starlette_app.route("/.well-known/mcp/server-card.json")
+    async def server_card(request):
+        with open(os.path.join(os.path.dirname(__file__), ".well-known/mcp/server-card.json")) as f:
+            return JSONResponse(json.load(f))
+    
     uvicorn.run(starlette_app, host=HOST, port=PORT, log_level="info")
