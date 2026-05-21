@@ -163,7 +163,6 @@ if __name__ == "__main__":
     import uvicorn
     import json
     from starlette.responses import JSONResponse
-    from starlette.routing import Route
     
     print(f"🚀 TON Data MCP Server запущен на {HOST}:{PORT}")
     print(f"📡 SSE endpoint: http://{HOST}:{PORT}/sse")
@@ -174,9 +173,10 @@ if __name__ == "__main__":
     starlette_app = mcp.sse_app()
     
     # Добавляем Smithery server card endpoint
-    @starlette_app.route("/.well-known/mcp/server-card.json")
     async def server_card(request):
-        with open(os.path.join(os.path.dirname(__file__), ".well-known/mcp/server-card.json")) as f:
+        card_path = os.path.join(os.path.dirname(__file__), ".well-known/mcp/server-card.json")
+        with open(card_path) as f:
             return JSONResponse(json.load(f))
+    starlette_app.add_route("/.well-known/mcp/server-card.json", server_card, methods=["GET"])
     
     uvicorn.run(starlette_app, host=HOST, port=PORT, log_level="info")
